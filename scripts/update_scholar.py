@@ -1,17 +1,21 @@
-"""Fetch the "Cited by" table from a Google Scholar profile and write data/scholar.js.
+"""Fetch the "Cited by" table of a Google Scholar profile and write data/scholar.js.
 
 Usage: python scripts/update_scholar.py <scholar_user_id> <output_js_path>
 
-If Scholar cannot be reached or the page layout is not recognised (for example a
-CAPTCHA page), the script leaves the existing file untouched and exits 0, so the
+When the SERPAPI_KEY environment variable is set, the numbers come from SerpAPI's
+Google Scholar Author API (reliable from GitHub Actions). Otherwise the script
+falls back to reading the Scholar profile page directly, which Google often
+blocks from cloud servers.
+
+On any failure the existing file is left untouched and the script exits 0, so the
 site keeps showing the last good numbers.
 """
 import datetime
 import json
+import os
 import sys
 
 import requests
-from bs4 import BeautifulSoup
 
 HEADERS = {
     "User-Agent": (
@@ -21,16 +25,68 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
+ROW_LABELS = {"citations": "Citations", "h_index": "h-index", "i10_index": "i10-index"}
+
+
+def profile_url(user_id):
+    return f"https://scholar.google.com/citations?user={user_id}&hl=en"
+
 
 def to_int(text):
-    digits = "".join(ch for ch in text if ch.isdigit())
+    digits = "".join(ch for ch in str(text) if ch.isdigit())
     return int(digits) if digits else 0
 
 
-def fetch_stats(user_id):
-    url = f"https://scholar.google.com/citations?user={user_id}&hl=en"
-    resp = requests.get(url, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
+def column_label(key):
+    # SerpAPI uses keys such as "all" and "since_2021".
+    if key == "all":
+        return "All"
+    if key.startswith("since_"):
+        return "Since " + key[len("since_"):]
+    return key.replace("_", " ").title()
+
+
+def fetch_via_serpapi(user_id, api_key):
+    resp = requests.get(
+        "https://serpapi.com/search.json",
+        params={
+            "engine": "google_scholar_author",
+            "author_id": user_id,
+            "hl": "en",
+            "num": 1,  # we only need the citation table, not the article list
+            "api_key": api_key,
+        },
+        timeout=60,
+    )
+    if resp.status_code != 200:
+        # Do not print the request URL: it contains the API key.
+        raise RuntimeError(f"SerpAPI returned HTTP {resp.status_code}")
+    data = resp.json()
+    if data.get("error"):
+        raise RuntimeError(f"SerpAPI error: {data['error']}")
+
+    table = (data.get("cited_by") or {}).get("table") or []
+    columns, rows = None, []
+    for entry in table:
+        for key, values in entry.items():
+            keys = list(values.keys())
+            if columns is None:
+                columns = [column_label(k) for k in keys]
+            rows.append({
+                "label": ROW_LABELS.get(key, key),
+                "values": [to_int(values[k]) for k in keys],
+            })
+    if not columns or not rows:
+        raise ValueError("SerpAPI response has no citation table")
+    return columns, rows
+
+
+def fetch_via_scholar_page(user_id):
+    from bs4 import BeautifulSoup
+
+    resp = requests.get(profile_url(user_id), headers=HEADERS, timeout=30)
+    if resp.status_code != 200:
+        raise RuntimeError(f"Google Scholar returned HTTP {resp.status_code}")
     soup = BeautifulSoup(resp.text, "html.parser")
 
     table = soup.select_one("#gsc_rsb_st")
@@ -46,9 +102,19 @@ def fetch_stats(user_id):
             rows.append({"label": label.get_text(strip=True), "values": values})
     if not columns or not rows:
         raise ValueError("citation table is empty")
+    return columns, rows
 
+
+def fetch_stats(user_id):
+    api_key = os.environ.get("SERPAPI_KEY", "").strip()
+    if api_key:
+        print("Fetching citation stats via SerpAPI.")
+        columns, rows = fetch_via_serpapi(user_id, api_key)
+    else:
+        print("SERPAPI_KEY not set; reading the Google Scholar page directly.")
+        columns, rows = fetch_via_scholar_page(user_id)
     return {
-        "profile": url,
+        "profile": profile_url(user_id),
         "columns": columns,
         "rows": rows,
         "updated": datetime.date.today().isoformat(),
@@ -68,8 +134,7 @@ def main():
     try:
         with open(out_path, encoding="utf-8") as f:
             old = f.read()
-        start = old.index("{")
-        old_stats = json.loads(old[start:old.rindex("}") + 1])
+        old_stats = json.loads(old[old.index("{"):old.rindex("}") + 1])
     except (OSError, ValueError):
         old_stats = None
     if old_stats and {k: old_stats.get(k) for k in ("columns", "rows")} == {

@@ -2,7 +2,7 @@ name: Update Google Scholar stats
 
 on:
   schedule:
-    - cron: "17 2 * * *"   # every day at 02:17 UTC
+    - cron: "17 2 * * *"   # every day at 02:17 UTC (~30 SerpAPI searches/month)
   workflow_dispatch:
   push:
     branches: [main]
@@ -31,6 +31,8 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Fetch Google Scholar stats
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
         run: python scripts/update_scholar.py vpKvXRgAAAAJ data/scholar.js
 
       - name: Commit if changed
