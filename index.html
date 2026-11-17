@@ -45,6 +45,56 @@
       font-size: 15px;
     }
 
+    /* Google Scholar 引用统计 */
+    .scholar-stats {
+      display: inline-block;
+      min-width: 300px;
+      padding: 12px 18px 10px;
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .scholar-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .scholar-table th,
+    .scholar-table td {
+      padding: 5px 0 5px 28px;
+      text-align: right;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .scholar-table th:first-child,
+    .scholar-table td:first-child {
+      padding-left: 0;
+      text-align: left;
+    }
+    .scholar-table thead th {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+      color: #555;
+      font-weight: 400;
+    }
+    .scholar-table thead th:first-child {
+      color: #111;
+      font-weight: 700;
+    }
+    .scholar-table tbody td {
+      color: #111;
+    }
+    .scholar-table tbody td:first-child {
+      color: #555;
+    }
+    .scholar-note,
+    .scholar-note a {
+      margin-top: 6px;
+      color: #888;
+      font-size: 12px;
+    }
+    .scholar-note a {
+      color: #ad7020;
+    }
+
     /* 复制提示框样式 */
     .toast-message {
       position: fixed;
@@ -102,6 +152,13 @@
                   </svg>
                   Email: <span class="contact-sub">tianwen001 [at] e.ntu.edu.sg</span>
                 </a> &nbsp/&nbsp
+                <a href="https://scholar.google.com/citations?user=vpKvXRgAAAAJ&amp;hl=en" title="Google Scholar">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3 1.5 9 12 15 22.5 9 12 3Z"></path>
+                    <path d="M5 12.1v4.2c0 1.2 3.1 3.2 7 3.2s7-2 7-3.2v-4.2l-7 4-7-4Z"></path>
+                  </svg>
+                  Google Scholar
+                </a> &nbsp/&nbsp
                 <a href="https://github.com/tianwen1209" title="GitHub">
                   <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 .5C5.7.5.6 5.6.6 11.9c0 5 3.3 9.3 7.9 10.8.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 .1.5 2.7 3.2 1.9.1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.6.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.5.2 2.8.1 3.1.8.9 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.8C23.4 5.6 18.3.5 12 .5Z"></path>
@@ -121,6 +178,20 @@
           <br>
               <heading>Publications</heading>
           <br>
+
+          <tr id="scholar-stats-row" hidden>
+            <td style="padding:0">
+              <div class="scholar-stats">
+                <table class="scholar-table">
+                  <thead><tr><th>Cited by</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+                <div class="scholar-note">
+                  Data from <a href="https://scholar.google.com/citations?user=vpKvXRgAAAAJ&amp;hl=en">Google Scholar</a><span class="scholar-updated"></span>
+                </div>
+              </div>
+            </td>
+          </tr>
 
           <tr class="pub-entry">
             <td style="padding:16px 20px;vertical-align:middle">
@@ -231,6 +302,7 @@
 
   <div id="toast" class="toast-message">✅复制完成</div>
 
+  <script src="data/scholar.js"></script>
   <script>
     // 邮箱在运行时拼接，源码中不出现完整地址，防止被爬虫抓取
     function getEmail() {
@@ -285,6 +357,31 @@
       e.preventDefault();
       window.location.href = 'mailto:' + getEmail();
     });
+
+    // Google Scholar 引用统计表（数据由 GitHub Action 每天更新到 data/scholar.js）
+    (function() {
+      var stats = window.SCHOLAR_STATS;
+      var row = document.getElementById('scholar-stats-row');
+      if (!stats || !stats.rows || !stats.rows.length || !row) return;
+      var esc = function(t) {
+        return String(t).replace(/[&<>"]/g, function(c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+      };
+      var headRow = row.querySelector('thead tr');
+      stats.columns.forEach(function(col) {
+        headRow.insertAdjacentHTML('beforeend', '<th>' + esc(col) + '</th>');
+      });
+      var body = row.querySelector('tbody');
+      stats.rows.forEach(function(r) {
+        body.insertAdjacentHTML('beforeend', '<tr><td>' + esc(r.label) + '</td>' +
+          r.values.map(function(v) { return '<td>' + esc(v) + '</td>'; }).join('') + '</tr>');
+      });
+      if (stats.updated) {
+        row.querySelector('.scholar-updated').textContent = ' · updated ' + stats.updated;
+      }
+      row.hidden = false;
+    })();
 
     // Back to Top
     (function() {
