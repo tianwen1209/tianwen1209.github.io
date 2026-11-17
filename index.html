@@ -248,6 +248,35 @@
       white-space: nowrap;
     }
 
+    /* Demo 卡片 */
+    .demo-card {
+      padding: 16px 20px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .demo-card papertitle {
+      display: block;
+      line-height: 1.45;
+    }
+    .demo-desc {
+      margin: 6px 0 12px;
+      color: #555;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    .demo-video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      background: #000;
+    }
+    .demo-links {
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
     /* 待补充板块的占位文字 */
     .section-placeholder {
       margin: 0;
@@ -410,19 +439,34 @@
           </tr>
         </tbody></table>
 
-        <!-- Demo：内容待补充 -->
+        <!-- Demo -->
         <table id="demo" class="page-section" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <br>
               <heading>Demo</heading>
           <br>
           <tr>
-            <td style="padding:10px 0 24px;vertical-align:middle">
-              <p class="section-placeholder">Coming soon.</p>
+            <td style="padding:16px 0 24px;vertical-align:middle">
+              <div class="demo-card">
+                <papertitle>Cognitive Battery Digital Twin: Towards Intelligent Battery Management</papertitle>
+                <p class="demo-desc">
+                  A five-tier cognitive battery digital twin (geometric, descriptive, predictive, prescriptive and autonomous)
+                  that combines multi-physics modelling with data-driven AI for battery health monitoring,
+                  degradation forecasting and autonomous decision-making across the battery lifecycle.
+                </p>
+                <video class="demo-video" controls preload="none" playsinline
+                       poster="images/demo/battery-digital-twin-cover.jpg" width="1280" height="720">
+                  <source src="videos/battery-digital-twin.mp4" type="video/mp4">
+                  Your browser does not support embedded video. <a href="videos/battery-digital-twin.mp4">Download the demo video</a>.
+                </video>
+                <div class="demo-links">
+                  <a href="files/battery-digital-twin-poster.pdf">Poster (PDF)</a>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody></table>
 
-        <!-- Awards：内容待补充 -->
+        <!-- Awards -->
         <table id="awards" class="page-section" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <br>
               <heading>Awards</heading>
