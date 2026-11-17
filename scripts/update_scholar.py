@@ -78,7 +78,19 @@ def fetch_via_serpapi(user_id, api_key):
             })
     if not columns or not rows:
         raise ValueError("SerpAPI response has no citation table")
-    return columns, rows
+
+    # Citations per year (the bar chart on the Scholar profile). Years with no
+    # citations can be missing, so fill the gaps with 0.
+    per_year = {}
+    for point in (data.get("cited_by") or {}).get("graph") or []:
+        year, count = point.get("year"), point.get("citations")
+        if year is not None and count is not None:
+            per_year[int(year)] = to_int(count)
+    graph = []
+    if per_year:
+        for year in range(min(per_year), max(per_year) + 1):
+            graph.append({"year": year, "citations": per_year.get(year, 0)})
+    return columns, rows, graph
 
 
 def fetch_via_scholar_page(user_id):
@@ -102,21 +114,22 @@ def fetch_via_scholar_page(user_id):
             rows.append({"label": label.get_text(strip=True), "values": values})
     if not columns or not rows:
         raise ValueError("citation table is empty")
-    return columns, rows
+    return columns, rows, []  # the per-year chart is only read via SerpAPI
 
 
 def fetch_stats(user_id):
     api_key = os.environ.get("SERPAPI_KEY", "").strip()
     if api_key:
         print("Fetching citation stats via SerpAPI.")
-        columns, rows = fetch_via_serpapi(user_id, api_key)
+        columns, rows, graph = fetch_via_serpapi(user_id, api_key)
     else:
         print("SERPAPI_KEY not set; reading the Google Scholar page directly.")
-        columns, rows = fetch_via_scholar_page(user_id)
+        columns, rows, graph = fetch_via_scholar_page(user_id)
     return {
         "profile": profile_url(user_id),
         "columns": columns,
         "rows": rows,
+        "graph": graph,
         "updated": datetime.date.today().isoformat(),
     }
 
@@ -137,9 +150,10 @@ def main():
         old_stats = json.loads(old[old.index("{"):old.rindex("}") + 1])
     except (OSError, ValueError):
         old_stats = None
-    if old_stats and {k: old_stats.get(k) for k in ("columns", "rows")} == {
-        k: stats[k] for k in ("columns", "rows")
-    }:
+    if old_stats and not stats["graph"] and old_stats.get("graph"):
+        stats["graph"] = old_stats["graph"]
+    keys = ("columns", "rows", "graph")
+    if old_stats and {k: old_stats.get(k) for k in keys} == {k: stats[k] for k in keys}:
         print("Scholar stats unchanged.")
         return
 
