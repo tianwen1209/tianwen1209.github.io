@@ -6,7 +6,7 @@
   <meta name="description" content="Tianwen Zhu (朱恬雯), Ph.D. candidate at the College of Computing and Data Science, Nanyang Technological University.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  <link rel="icon" type="image/svg+xml" href="images/template/avatar.svg">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <style>
     /* 论文卡片 */
     .publications-table tr.pub-entry > td {
@@ -95,6 +95,28 @@
       color: #ad7020;
     }
 
+    /* 手机端：照片放到名字上方居中 */
+    @media (max-width: 680px) {
+      .about-row {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+      .about-row > td.about-text,
+      .about-row > td.about-photo {
+        display: block;
+        width: auto !important;
+        max-width: none !important;
+      }
+      .about-row > td.about-photo {
+        text-align: center;
+        padding-bottom: 0 !important;
+      }
+      .about-row > td.about-photo img {
+        width: 180px !important;
+        max-width: 60% !important;
+      }
+    }
+
     /* 复制提示框样式 */
     .toast-message {
       position: fixed;
@@ -123,8 +145,8 @@
     <tr style="padding:0px">
       <td style="padding:0px">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-          <tr style="padding:0px">
-            <td style="padding:2.5%;width:68%;vertical-align:middle">
+          <tr class="about-row" style="padding:0px">
+            <td class="about-text" style="padding:2.5%;width:68%;vertical-align:middle">
               <p style="text-align:center">
                 <name>Tianwen Zhu &nbsp | &nbsp 朱恬雯</name>
               </p>
@@ -168,8 +190,8 @@
                 </span>
               </p>
             </td>
-            <td style="padding:2.5%;width:40%;max-width:40%">
-              <img style="width:85%;max-width:85%;border-radius:8px;" alt="Portrait of Tianwen Zhu" src="images/template/avatar.svg">
+            <td class="about-photo" style="padding:2.5%;width:40%;max-width:40%">
+              <img style="width:85%;max-width:85%;height:auto;border-radius:8px;" alt="Portrait of Tianwen Zhu" src="images/profile.jpg" width="600" height="800">
             </td>
           </tr>
         </tbody></table>
@@ -241,7 +263,7 @@
           <tr>
             <td style="padding-left:20px;padding-right:20px;width:20%;vertical-align:middle"><img src="images/logo/ntu.png" width="100" height="100" alt="Nanyang Technological University logo"></td>
             <td width="90%" valign="center">
-              <strong><a href="https://www.ntu-cap.org/team/">Nanyang Technological University (NTU)</a></strong>
+              <strong>Nanyang Technological University (NTU), Singapore</strong>
               <br> 2023 - 2027 (Expected)
               <br> <strong>Ph.D. Candidate</strong>, College of Computing and Data Science (CCDS)
               <br> Advisor: Prof. <a href="https://personal.ntu.edu.sg/ygwen/">Yonggang Wen</a>
@@ -250,7 +272,7 @@
           <tr>
             <td style="padding-left:20px;padding-right:20px;width:20%;vertical-align:middle"><img src="images/logo/ucla.png" width="100" height="100" alt="UCLA logo"></td>
             <td width="90%" valign="center">
-              <strong>University of California, Los Angeles (UCLA)</strong>
+              <strong>University of California, Los Angeles (UCLA), USA</strong>
               <br> 2021 - 2023
               <br> <strong>M.S.</strong> in Electrical and Computer Engineering
               <br> Advisor: Prof. <a href="https://www.ee.ucla.edu/lei-he/">Lei He</a>
@@ -259,7 +281,7 @@
           <tr>
             <td style="padding-left:20px;padding-right:20px;width:20%;vertical-align:middle"><img src="images/logo/bjtu.png" width="100" height="100" alt="Beijing Jiaotong University logo"></td>
             <td width="90%" valign="center">
-              <strong>Beijing Jiaotong University (BJTU)</strong>
+              <strong>Beijing Jiaotong University (BJTU), China</strong>
               <br> 2016 - 2020
               <br> <strong>B.Eng.</strong> in Communication Engineering (Science Experimental Class)
             </td>
