@@ -28,5 +28,35 @@ window.SCHOLAR_STATS = {
       ]
     }
   ],
+  "graph": [
+    {
+      "year": 2020,
+      "citations": 29
+    },
+    {
+      "year": 2021,
+      "citations": 64
+    },
+    {
+      "year": 2022,
+      "citations": 110
+    },
+    {
+      "year": 2023,
+      "citations": 122
+    },
+    {
+      "year": 2024,
+      "citations": 173
+    },
+    {
+      "year": 2025,
+      "citations": 186
+    },
+    {
+      "year": 2026,
+      "citations": 233
+    }
+  ],
   "updated": "2026-11-17"
 };
