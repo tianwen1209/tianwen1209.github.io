@@ -15,6 +15,14 @@
       cursor: url('images/icon/cursor-pointer.png'), pointer !important;
     }
 
+    /* 论文卡片 */
+    .publications-table tr.pub-entry > td {
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      border-radius: 8px;
+      background: #fff;
+      line-height: 1.6;
+    }
+
     /* 复制提示框样式 */
     .toast-message {
       position: fixed;
@@ -101,6 +109,32 @@
             </td>
             <td style="padding:2.5%;width:40%;max-width:40%">
               <img style="width:85%;max-width:85%;border-radius:8px;" alt="Portrait of Tianwen Zhu" src="images/template/avatar.svg">
+            </td>
+          </tr>
+        </tbody></table>
+
+        <table id="publications" class="publications-table page-section" style="width:100%;border:0px;border-spacing:0 16px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <br>
+              <heading>Publications</heading>
+          <br>
+
+          <tr class="pub-entry">
+            <td style="padding:16px 20px;vertical-align:middle">
+              <papertitle>BatteryTwin: A Physics-Grounded Digital Twin and Benchmark for Battery Data Curation</papertitle>
+              <br>
+              <strong>Tianwen Zhu</strong>, Hao Wang, Yingpeng Du, Lingzhi Su, Yan Xu, Yonggang Wen
+              <br>
+              <span style="color: red;"><em><strong>SIGKDD 2027 Research Track</strong></em></span>
+            </td>
+          </tr>
+
+          <tr class="pub-entry">
+            <td style="padding:16px 20px;vertical-align:middle">
+              <papertitle>Physics-informed Multi-task Learning for Battery State of Health Prediction with Uncertainty Quantification</papertitle>
+              <br>
+              <strong>Tianwen Zhu</strong>, Guangyu Wu, Zhiwei Cao, Ruihang Wang, Jimin Jia, Yong Luo, Yonggang Wen
+              <br>
+              <span style="color: red;"><em><strong>AAAI-26 Oral</strong></em></span>
             </td>
           </tr>
         </tbody></table>
