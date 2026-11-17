@@ -422,7 +422,6 @@
 
   <div id="toast" class="toast-message">✅复制完成</div>
 
-  <script src="data/scholar.js"></script>
   <script>
     // 邮箱在运行时拼接，源码中不出现完整地址，防止被爬虫抓取
     function getEmail() {
@@ -479,7 +478,15 @@
     });
 
     // Google Scholar 引用统计表和每年引用柱状图（数据由 GitHub Action 每天更新到 data/scholar.js）
+    // 数据文件每天会变，加上按小时变化的参数，避免浏览器一直用旧的缓存
     (function() {
+      var script = document.createElement('script');
+      script.src = 'data/scholar.js?h=' + Math.floor(Date.now() / 3600000);
+      script.onload = renderScholarStats;
+      document.body.appendChild(script);
+    })();
+
+    function renderScholarStats() {
       var stats = window.SCHOLAR_STATS;
       var row = document.getElementById('scholar-stats-row');
       if (!stats || !stats.rows || !stats.rows.length || !row) return;
@@ -621,7 +628,7 @@
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(draw);
       }, { passive: true });
-    })();
+    }
 
     // Back to Top
     (function() {
