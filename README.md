@@ -1,6 +1,6 @@
 # Tianwen Zhu | 朱恬雯
 
-Personal homepage of Tianwen Zhu, Ph.D. student at the College of Computing and Data Science (CCDS), Nanyang Technological University.
+Personal homepage of Tianwen Zhu, Ph.D. candidate at the College of Computing and Data Science (CCDS), Nanyang Technological University.
 
 Preview locally with:
 
