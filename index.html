@@ -5,7 +5,7 @@
   <meta name="author" content="Tianwen Zhu">
   <meta name="description" content="Tianwen Zhu (朱恬雯), Ph.D. candidate at the College of Computing and Data Science, Nanyang Technological University.">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css?v=2">
   <link rel="icon" type="image/png" href="images/favicon.png?v=2">
   <style>
     /* 论文卡片 */
@@ -21,12 +21,15 @@
       margin-bottom: 8px;
       padding: 2px 10px;
       border-radius: 4px;
-      background: rgba(251, 165, 36, 0.16);
-      color: #8a4b0f;
+      background: rgba(59, 130, 246, 0.16);
+      color: #1e4f9c;
       font-size: 13px;
       font-weight: 700;
       letter-spacing: 0.02em;
       line-height: 1.6;
+    }
+    .pub-venue .pub-track {
+      font-weight: 400;
     }
     .pub-venue .pub-oral {
       color: #d40000;
@@ -99,7 +102,7 @@
       font-size: 12px;
     }
     .scholar-note a {
-      color: #ad7020;
+      color: #2a6bc0;
     }
     .scholar-chart {
       position: relative;
@@ -117,11 +120,11 @@
       overflow: visible;
     }
     .scholar-chart .bar {
-      fill: #c9790e;
+      fill: #2f6fd0;
       transition: fill 0.12s ease;
     }
     .scholar-chart .bar.is-active {
-      fill: #e08a12;
+      fill: #4a8be0;
     }
     .scholar-chart .hit {
       fill: transparent;
@@ -315,7 +318,7 @@
 
           <tr class="pub-entry">
             <td style="padding:16px 20px;vertical-align:middle">
-              <div class="pub-venue">SIGKDD 2027 Research Track</div>
+              <div class="pub-venue">SIGKDD 2027 <span class="pub-track">Research Track</span></div>
               <papertitle>BatteryTwin: A Physics-Grounded Digital Twin and Benchmark for Battery Data Curation</papertitle>
               <div class="pub-authors"><strong>Tianwen Zhu</strong>, Hao Wang, Yingpeng Du, Lingzhi Su, Yan Xu, Yonggang Wen</div>
             </td>
@@ -323,7 +326,7 @@
 
           <tr class="pub-entry">
             <td style="padding:16px 20px;vertical-align:middle">
-              <div class="pub-venue">AAAI 2026 Main Track <span class="pub-oral">(Oral)</span></div>
+              <div class="pub-venue">AAAI 2026 <span class="pub-track">Main Track</span> <span class="pub-oral">(Oral)</span></div>
               <papertitle>Physics-informed Multi-task Learning for Battery State of Health Prediction with Uncertainty Quantification</papertitle>
               <div class="pub-authors"><strong>Tianwen Zhu</strong>, Guangyu Wu, Zhiwei Cao, Ruihang Wang, Jimin Jia, Yong Luo, Yonggang Wen</div>
             </td>
