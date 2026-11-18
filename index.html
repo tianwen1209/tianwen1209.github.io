@@ -292,6 +292,34 @@
       line-height: 1.45;
     }
 
+    /* Research Interests 列表 */
+    .interest-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .interest-list li {
+      position: relative;
+      padding: 4px 0 4px 18px;
+      line-height: 1.55;
+    }
+    .interest-list li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 0.95em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4a90e2;
+    }
+    .interest-list strong {
+      color: #111;
+    }
+    .interest-detail {
+      color: #555;
+    }
+
     /* 待补充板块的占位文字 */
     .section-placeholder {
       margin: 0;
@@ -374,6 +402,23 @@
             </td>
             <td class="about-photo" style="padding:2.5%;width:40%;max-width:40%">
               <img style="width:85%;max-width:85%;height:auto;border-radius:8px;" alt="Portrait of Tianwen Zhu" src="images/profile.jpg?v=2" width="450" height="600">
+            </td>
+          </tr>
+        </tbody></table>
+
+        <!-- Research Interests -->
+        <table id="research" class="page-section" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <br>
+              <heading>Research Interests</heading>
+          <br>
+          <tr>
+            <td style="padding:12px 0 8px;vertical-align:middle">
+              <ul class="interest-list">
+                <li><strong>Physics-informed machine learning</strong></li>
+                <li><strong>Battery digital twins and intelligent battery management</strong><span class="interest-detail"> — state-of-health estimation, prognostics and health management</span></li>
+                <li><strong>Intelligent predictive maintenance</strong><span class="interest-detail"> — connected industrial systems</span></li>
+                <li><strong>Trustworthy AI</strong><span class="interest-detail"> — uncertainty quantification and interpretability</span></li>
+              </ul>
             </td>
           </tr>
         </tbody></table>
