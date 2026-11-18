@@ -292,32 +292,14 @@
       line-height: 1.45;
     }
 
-    /* Research Interests 列表 */
-    .interest-list {
-      list-style: none;
+    /* Research Interests：一段话，关键词标红 */
+    .research-summary {
       margin: 0;
-      padding: 0;
+      line-height: 1.65;
     }
-    .interest-list li {
-      position: relative;
-      padding: 4px 0 4px 18px;
-      line-height: 1.55;
-    }
-    .interest-list li::before {
-      content: '';
-      position: absolute;
-      left: 2px;
-      top: 0.95em;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #4a90e2;
-    }
-    .interest-list strong {
-      color: #111;
-    }
-    .interest-detail {
-      color: #555;
+    .research-summary .kw {
+      color: #d40000;
+      font-weight: 700;
     }
 
     /* 待补充板块的占位文字 */
@@ -413,12 +395,12 @@
           <br>
           <tr>
             <td style="padding:12px 0 8px;vertical-align:middle">
-              <ul class="interest-list">
-                <li><strong>Physics-informed machine learning</strong></li>
-                <li><strong>Battery digital twins and intelligent battery management</strong><span class="interest-detail"> — state-of-health estimation, prognostics and health management</span></li>
-                <li><strong>Intelligent predictive maintenance</strong><span class="interest-detail"> — connected industrial systems</span></li>
-                <li><strong>Trustworthy AI</strong><span class="interest-detail"> — uncertainty quantification and interpretability</span></li>
-              </ul>
+              <p class="research-summary">
+                My research focuses on <span class="kw">physics-informed machine learning</span> and
+                <span class="kw">digital twins</span> for intelligent battery management and predictive maintenance,
+                including state-of-health estimation and prognostics. I am also interested in
+                <span class="kw">trustworthy AI</span>, with an emphasis on uncertainty quantification and interpretability.
+              </p>
             </td>
           </tr>
         </tbody></table>
