@@ -9,8 +9,8 @@ window.SCHOLAR_STATS = {
     {
       "label": "Citations",
       "values": [
-        934,
-        889
+        937,
+        891
       ]
     },
     {
@@ -43,7 +43,7 @@ window.SCHOLAR_STATS = {
     },
     {
       "year": 2023,
-      "citations": 122
+      "citations": 123
     },
     {
       "year": 2024,
@@ -55,8 +55,8 @@ window.SCHOLAR_STATS = {
     },
     {
       "year": 2026,
-      "citations": 234
+      "citations": 235
     }
   ],
-  "updated": "2026-11-18"
+  "updated": "2026-11-20"
 };
